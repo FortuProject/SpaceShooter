@@ -1,0 +1,65 @@
+[gd_scene load_steps=11 format=3 uid="uid://diryr6qvgtdhn"]
+
+[ext_resource type="Texture2D" uid="uid://dr6scffqecw2p" path="res://assets/blood.png" id="1_m53f7"]
+[ext_resource type="Script" path="res://components/onetime_animated_effect.gd" id="2_3jdfh"]
+[ext_resource type="AudioStream" uid="uid://d368byog1e5eh" path="res://sounds/explosion_sound.wav" id="3_74bb2"]
+[ext_resource type="Script" path="res://components/variable_pitch_audio_stream_player.gd" id="4_pg77u"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dmdyl"]
+atlas = ExtResource("1_m53f7")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2dm0d"]
+atlas = ExtResource("1_m53f7")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddqgk"]
+atlas = ExtResource("1_m53f7")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ra46y"]
+atlas = ExtResource("1_m53f7")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_54x2j"]
+atlas = ExtResource("1_m53f7")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0fht5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dmdyl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2dm0d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ddqgk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ra46y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_54x2j")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="BloodEffect" type="AnimatedSprite2D"]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_0fht5")
+autoplay = "default"
+frame = 4
+frame_progress = 1.0
+script = ExtResource("2_3jdfh")
+
+[node name="VariablePitchAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_74bb2")
+volume_db = 1.0
+bus = &"Sound"
+script = ExtResource("4_pg77u")
+pitch_min = 0.9
+auto_play_with_variance = true

@@ -1,0 +1,76 @@
+[gd_scene load_steps=10 format=3 uid="uid://1ppolet1bq3b"]
+
+[ext_resource type="PackedScene" uid="uid://b243oicw5y284" path="res://Enemies/enemy.tscn" id="1_nsp6t"]
+[ext_resource type="Texture2D" uid="uid://qw0mc3nfkpdk" path="res://assets/Enemy_1.png" id="2_651bj"]
+[ext_resource type="PackedScene" uid="uid://d31raffqvigge" path="res://effects/blood_effect.tscn" id="3_dykn6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4c1q"]
+atlas = ExtResource("2_651bj")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_41oyn"]
+atlas = ExtResource("2_651bj")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vml3"]
+atlas = ExtResource("2_651bj")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gu8xc"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4c1q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_41oyn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8vml3")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_88ow8"]
+size = Vector2(10, 15)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mmhpc"]
+radius = 4.0
+height = 16.0
+
+[node name="Enemy1" instance=ExtResource("1_nsp6t")]
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_gu8xc")
+animation = &"move"
+autoplay = "move"
+frame_progress = 0.411287
+
+[node name="MoveComponent" parent="." index="2" node_paths=PackedStringArray("actor")]
+actor = NodePath("..")
+velocity = Vector2(0, 50)
+
+[node name="HurtboxComponent" parent="." index="7"]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" index="0"]
+position = Vector2(-1, 0.5)
+shape = SubResource("RectangleShape2D_88ow8")
+
+[node name="HitboxComponent" parent="." index="8"]
+position = Vector2(1, 2)
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" index="0"]
+position = Vector2(-2, -1)
+shape = SubResource("CapsuleShape2D_mmhpc")
+
+[node name="SpawnerComponent" parent="." index="12"]
+scene = ExtResource("3_dykn6")
